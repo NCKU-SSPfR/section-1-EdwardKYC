@@ -2,3 +2,9 @@ version: '3'
 
 services:
   web:
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+      interval: 5s
+      retries: 3
+      start_period: 10s
+      timeout: 3s
