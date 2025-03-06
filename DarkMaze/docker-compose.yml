@@ -12,6 +12,7 @@ services:
   
   sonarqube:
     image: sonarqube:lts-community
+    container_name: sonarqube
     ports:
       - "9000:9000"
     environment:
@@ -29,10 +30,8 @@ services:
     volumes:
       - ./backend:/usr/src
       - ./reports:/reports
-    command:
-    - sh
-    - -c
-    - |
+    command: >
+      sh -c "
       apt-get update && apt-get install -y python3 python3-pip &&
       pip3 install --no-cache-dir pylint flake8 &&
       mkdir -p /reports &&
