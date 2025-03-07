@@ -1,14 +1,19 @@
 FROM python:3.11
 
-RUN adduser --disabled-password --gecos "" appuser
+RUN useradd -m appuser
 
 WORKDIR /app
 
-COPY requirements.txt /app/
-COPY ./src /app/src
+COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
+COPY src/ /app/src
+
+RUN chown -R appuser:appuser /app
+
 USER appuser
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000",  "--reload"]
